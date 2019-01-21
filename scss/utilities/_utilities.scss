@@ -1,0 +1,79 @@
+// Property utilities generation
+
+
+// Loop over every breakpoint
+@each $breakpoint in map-keys($grid-breakpoints) {
+  // Generate media query if needed
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    // Loop over each utility property
+    @each $key, $utility in $utilities {
+
+      // Only render if responsive media queries are enabled or if it's the base media query
+      @if type_of($utility) == "map" and (map_get($utility, responsive) or $infix == "") {
+        $values: map_get($utility, values);
+
+        // If the values are a list or string, convert it into a map
+        @if type_of($values) == "string" {
+          $values: zip($values, $values);
+        } @else if type_of(nth($values, 1)) != "list" {
+          $values: zip($values, $values);
+        }
+
+        @each $value in $values {
+          $properties: map_get($utility, property);
+
+
+          @if type_of($properties) == "string" {
+            $properties: append((), $properties);
+          }
+
+          $property-class: map_get($utility, property-class);
+          $property-class: if($property-class, $property-class, nth($properties, 1));
+
+          // Don't prefix if value key is null (eg. with shadow class)
+          $property-class-modifier: if(nth($value, 1), "-" + nth($value, 1), "");
+
+          .#{$property-class + $infix + $property-class-modifier} {
+            @each $property in $properties {
+              // stylelint-disable-next-line declaration-no-important
+              #{$property}: #{nth($value, 2)} !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// Print utilities
+@media print {
+  @each $utility in $utilities {
+    @if type_of($utility) == "map" and map_get($utility, print) == true {
+
+      // Lot of duplicate code copied from above
+      // TODO: cleanup
+      $values: map_get($utility, values);
+
+      @if type_of($values) == "string" {
+        $values: zip($values, $values);
+      } @else if type_of(nth($values, 1)) != "list" {
+        $values: zip($values, $values);
+      }
+
+      @each $value in $values {
+        $property: map_get($utility, property);
+        $property-class: map_get($utility, property-class);
+        $property-class: if($property-class, $property-class, $property);
+
+        $property-class-modifier: if(nth($value, 1), "-" + nth($value, 1), "");
+
+        .#{$property-class + '-print' + $property-class-modifier} {
+          // stylelint-disable-next-line declaration-no-important
+          #{$property}: #{nth($value, 2)} !important;
+        }
+      }
+    }
+  }
+}

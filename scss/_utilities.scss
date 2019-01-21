@@ -1,17 +1,454 @@
-@import "utilities/align";
-@import "utilities/background";
-@import "utilities/borders";
-@import "utilities/clearfix";
-@import "utilities/display";
-@import "utilities/embed";
-@import "utilities/flex";
-@import "utilities/float";
-@import "utilities/overflow";
-@import "utilities/position";
-@import "utilities/screenreaders";
-@import "utilities/shadows";
-@import "utilities/sizing";
-@import "utilities/stretched-link";
-@import "utilities/spacing";
-@import "utilities/text";
-@import "utilities/visibility";
+// Utilities
+//
+// Congratulations, you have found your way to the utilities configuration file! It's recommended to first grab
+// a cup of coffee or tea before continuing reading because it can take some time before you figured out how it works.
+//
+// Before reading on, you will need to know what sass maps are, information about it can be found in the official docs
+// (https://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps) or in this article:
+// https://www.sitepoint.com/using-sass-maps/
+//
+// The `$utilities` map contains all utilities and is later merged with your custom `$utilities` map if present.
+// The utility variables accept the following options:
+// - property
+//   Obviously just the name of the property. This can be a string or an array of strings (needed for eg horizontal
+//   paddings or margins).
+// - responsive (optional)
+//   Boolean indicating if responsive classes need to be generated. `false` by default.
+// - property-class (optional)
+//   Variable to change the class name if you don't want it to be the same as the property.
+// - values
+//   This can be a list of values or a map if you don't want the class name to be the same as the value. If null is used
+//   as map key, it isn't rendered.
+// - print (optional)
+//   Boolean indicating if print classes need to be generated. `false` by default.
+//
+// All utility variables are added to the `$utilities` variable. If you want to add your custom utilities, you can add
+// them like this:
+// $utilities: (
+//   "opacity": (
+//     property: opacity,
+//     property-class: o,
+//     values: (
+//       0: 0,
+//       25: .25,
+//       50: .5,
+//       100: 1,
+//     )
+//   )
+// );
+//
+// You can also override excising utilities by using the same key. For example if you want more responsive overflow
+// utility classes you can do this:
+// $utilities: (
+//   "overflow": (
+//     responsive: true,
+//     property: overflow,
+//     values: visible hidden scroll auto,
+//   ),
+// );
+//
+// Utilities can also be removed, for example if you want to remove the `float` utilities:
+// $utilities: (
+//   "float" :false,
+// );
+//
+// And now it's up to you, go go go!
+
+
+$utilities: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$utilities: map-merge(
+  (
+    "align": (
+      responsive: true,
+      property: vertical-align,
+      property-class: align,
+      values: baseline top middle bottom text-bottom text-top
+    ),
+    "float": (
+      responsive: true,
+      property: float,
+      values: left right none
+    ),
+    "overflow": (
+      property: overflow,
+      values: auto hidden,
+    ),
+    "display": (
+      responsive: true,
+      print: true,
+      property: display,
+      property-class: d,
+      values: none inline inline-block block table table-row table-cell flex inline-flex
+    ),
+    "shadow": (
+      property: box-shadow,
+      property-class: shadow,
+      values: (
+        sm: $box-shadow-sm,
+        null: $box-shadow,
+        lg: $box-shadow-lg,
+        none: none,
+      )
+    ),
+    "position": (
+      property: position,
+      values: static relative absolute fixed sticky
+    ),
+    "border": (
+      property: border,
+      values: (
+        null: $border-width solid $border-color,
+        0: 0,
+      )
+    ),
+    "border-top": (
+      property: border-top,
+      values: (
+        null: $border-width solid $border-color,
+        0: 0,
+      )
+    ),
+    "border-right": (
+      property: border-right,
+      values: (
+        null: $border-width solid $border-color,
+        0: 0,
+      )
+    ),
+    "border-bottom": (
+      property: border-bottom,
+      values: (
+        null: $border-width solid $border-color,
+        0: 0,
+      )
+    ),
+    "border-left": (
+      property: border-left,
+      values: (
+        null: $border-width solid $border-color,
+        0: 0,
+      )
+    ),
+    "border-color": (
+      property: border-color,
+      property-class: border,
+      values: map_merge($theme-colors, (white: $white))
+    ),
+    "visibility": (
+      property: visibility,
+      values: visible hidden
+    ),
+    // Sizing utilities
+    "width": (
+      property: width,
+      property-class: w,
+      values: (
+        25: 25%,
+        50: 50%,
+        75: 75%,
+        100: 100%,
+        auto: auto
+      )
+    ),
+    "height": (
+      property: height,
+      property-class: h,
+      values: (
+        25: 25%,
+        50: 50%,
+        75: 75%,
+        100: 100%,
+        auto: auto
+      )
+    ),
+    // Flex utilities
+    "flex": (
+      responsive: true,
+      property: flex,
+      values: (fill: 1 1 auto)
+    ),
+    "flex-direction": (
+      responsive: true,
+      property: flex-direction,
+      property-class: flex,
+      values: row column row-reverse column-reverse
+    ),
+    "flex-grow": (
+      responsive: true,
+      property: flex-grow,
+      values: 0 1
+    ),
+    "flex-shrink": (
+      responsive: true,
+      property: flex-shrink,
+      values: 0 1
+    ),
+    "flex-wrap": (
+      responsive: true,
+      property: flex-wrap,
+      property-class: flex,
+      values: wrap nowrap wrap-reverse
+    ),
+    "justify-content": (
+      responsive: true,
+      property: justify-content,
+      values: flex-start flex-end center space-between space-around
+    ),
+    "align-items": (
+      responsive: true,
+      property: align-items,
+      values: flex-start flex-end center baseline stretch
+    ),
+    "align-content": (
+      responsive: true,
+      property: align-content,
+      values: flex-start flex-end center space-between space-around stretch
+    ),
+    "align-self": (
+      responsive: true,
+      property: align-self,
+      values: auto flex-start flex-end center baseline stretch
+    ),
+    "order": (
+      responsive: true,
+      property: order,
+      values: (
+        first: -1,
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9,
+        10: 10,
+        11: 11,
+        12: 12,
+        last: 13,
+      ),
+    ),
+    // Margin utilities
+    "margin": (
+      responsive: true,
+      property: margin,
+      property-class: m,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    "margin-x": (
+      responsive: true,
+      property: margin-right margin-left,
+      property-class: mx,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    "margin-y": (
+      responsive: true,
+      property: margin-top margin-bottom,
+      property-class: my,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    "margin-top": (
+      responsive: true,
+      property: margin-top,
+      property-class: mt,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    "margin-right": (
+      responsive: true,
+      property: margin-right,
+      property-class: mr,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    "margin-bottom": (
+      responsive: true,
+      property: margin-bottom,
+      property-class: mb,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    "margin-left": (
+      responsive: true,
+      property: margin-left,
+      property-class: ml,
+      values: map_merge($spacers, (auto: auto))
+    ),
+    // Negative margin utilities
+    "negative-margin": (
+      responsive: true,
+      property: margin,
+      property-class: m,
+      values: $negative-spacers
+    ),
+    "negative-margin-x": (
+      responsive: true,
+      property: margin-right margin-left,
+      property-class: mx,
+      values: $negative-spacers
+    ),
+    "negative-margin-y": (
+      responsive: true,
+      property: margin-top margin-bottom,
+      property-class: my,
+      values: $negative-spacers
+    ),
+    "negative-margin-top": (
+      responsive: true,
+      property: margin-top,
+      property-class: mt,
+      values: $negative-spacers
+    ),
+    "negative-margin-right": (
+      responsive: true,
+      property: margin-right,
+      property-class: mr,
+      values: $negative-spacers
+    ),
+    "negative-margin-bottom": (
+      responsive: true,
+      property: margin-bottom,
+      property-class: mb,
+      values: $negative-spacers
+    ),
+    "negative-margin-left": (
+      responsive: true,
+      property: margin-left,
+      property-class: ml,
+      values: $negative-spacers
+    ),
+    // Padding utilities
+    "padding": (
+      responsive: true,
+      property: padding,
+      property-class: p,
+      values: $spacers
+    ),
+    "padding-x": (
+      responsive: true,
+      property: padding-right padding-left,
+      property-class: px,
+      values: $spacers
+    ),
+    "padding-y": (
+      responsive: true,
+      property: padding-top padding-bottom,
+      property-class: py,
+      values: $spacers
+    ),
+    "padding-top": (
+      responsive: true,
+      property: padding-top,
+      property-class: pt,
+      values: $spacers
+    ),
+    "padding-right": (
+      responsive: true,
+      property: padding-right,
+      property-class: pr,
+      values: $spacers
+    ),
+    "padding-bottom": (
+      responsive: true,
+      property: padding-bottom,
+      property-class: pb,
+      values: $spacers
+    ),
+    "padding-left": (
+      responsive: true,
+      property: padding-left,
+      property-class: pl,
+      values: $spacers
+    ),
+    // Text
+    "font-weight": (
+      property: font-weight,
+      values: (
+        light: $font-weight-light,
+        lighter: $font-weight-lighter,
+        normal: $font-weight-normal,
+        bold: $font-weight-bold,
+        bolder: $font-weight-bolder
+      )
+    ),
+    "text-transform": (
+      property: text-transform,
+      property-class: text,
+      values: lowercase uppercase capitalize
+    ),
+    "text-align": (
+      responsive: true,
+      property: text-align,
+      property-class: text,
+      values: left right center justify
+    ),
+    "color": (
+      property: color,
+      property-class: text,
+      values: (
+        white: $white,
+        body: $body-color,
+        muted: $text-muted,
+        black-50: rgba($black, .5),
+        white-50: rgba($white, .5),
+        reset: inherit,
+      )
+    ),
+    "white-space": (
+      property: white-space,
+      property-class: text,
+      values: (
+        wrap: normal,
+        nowrap: nowrap,
+      )
+    ),
+    "text-decoration": (
+      property: text-decoration,
+      property-class: text,
+      values: (none: none)
+    ),
+    "overflow-wrap": (
+      property: overflow-wrap word-break, // word-break for IE & < Edge 18
+      property-class: text,
+      values: (break: break-word)
+    ),
+    "font-family": (
+      property: font-family,
+      property-class: text,
+      values: (monospace: $font-family-monospace)
+    ),
+    "rounded": (
+      property: border-radius,
+      property-class: rounded,
+      values: (
+        null: $border-radius,
+        sm: $border-radius-sm,
+        lg: $border-radius-lg,
+        circle: 50%,
+        pill: $rounded-pill,
+        0: 0,
+      )
+    ),
+    "rounded-top": (
+      property: border-top-left-radius border-top-right-radius,
+      property-class: rounded-top,
+      values: (null: $border-radius)
+    ),
+    "rounded-right": (
+      property: border-top-right-radius border-bottom-right-radius,
+      property-class: rounded-right,
+      values: (null: $border-radius)
+    ),
+    "rounded-bottom": (
+      property: border-bottom-right-radius border-bottom-left-radius,
+      property-class: rounded-bottom,
+      values: (null: $border-radius)
+    ),
+    "rounded-left": (
+      property: border-bottom-left-radius border-top-left-radius,
+      property-class: rounded-left,
+      values: (null: $border-radius)
+    ),
+  ),
+  $utilities
+);

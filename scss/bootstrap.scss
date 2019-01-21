@@ -5,9 +5,15 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+// Configuration
+
 @import "functions";
 @import "variables";
 @import "mixins";
+
+
+// Layout & components
+
 @import "root";
 @import "reboot";
 @import "type";
@@ -40,5 +46,19 @@
 @import "popover";
 @import "carousel";
 @import "spinners";
+
+
+// Helpers
+
+@import "helpers";
+
+
+// Utilities
+
 @import "utilities";
+@import "utilities/utilities";
+
+
+// Print
+
 @import "print";
