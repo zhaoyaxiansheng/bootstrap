@@ -11,10 +11,10 @@ import {
   emulateTransitionEnd,
   getSelectorFromElement,
   getTransitionDurationFromElement
-} from './util/index'
-import Data from './dom/data'
-import EventHandler from './dom/eventHandler'
-import SelectorEngine from './dom/selectorEngine'
+} from '../util/index'
+import Data from '../dom/data'
+import EventHandler from '../dom/eventHandler'
+import SelectorEngine from '../dom/selectorEngine'
 
 /**
  * ------------------------------------------------------------------------
@@ -53,6 +53,7 @@ const ClassName = {
 class Alert {
   constructor(element) {
     this._element = element
+
     if (this._element) {
       Data.setData(element, DATA_KEY, this)
     }
@@ -118,7 +119,7 @@ class Alert {
     const transitionDuration = getTransitionDurationFromElement(element)
 
     EventHandler
-      .one(element, TRANSITION_END, event => this._destroyElement(element, event))
+      .one(element, TRANSITION_END, () => this._destroyElement(element))
     emulateTransitionEnd(element, transitionDuration)
   }
 
