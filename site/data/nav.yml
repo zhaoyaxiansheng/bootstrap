@@ -53,24 +53,28 @@
     - title: Toasts
     - title: Tooltips
 
+- title: Helpers
+  pages:
+    - title: Clearfix
+    - title: Embed
+    - title: Image replacement
+    - title: Position
+    - title: Screen readers
+    - title: Stretched link
+
 - title: Utilities
   pages:
     - title: Borders
-    - title: Clearfix
     - title: Close icon
     - title: Colors
     - title: Display
-    - title: Embed
     - title: Flex
     - title: Float
-    - title: Image replacement
     - title: Overflow
     - title: Position
-    - title: Screen readers
     - title: Shadows
     - title: Sizing
     - title: Spacing
-    - title: Stretched link
     - title: Text
     - title: Vertical align
     - title: Visibility

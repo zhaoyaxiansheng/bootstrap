@@ -2,7 +2,7 @@
 layout: docs
 title: Image replacement
 description: Swap text for background images with the image replacement class.
-group: utilities
+group: helpers
 ---
 
 {{< callout warning >}}
